@@ -6,8 +6,8 @@ void main() {
   group("Enter", () {
     test("a new stack with given value at the end and old stack in history",
         () {
-      final origState = InternalState.empty();
-      final newState = Enter(1).apply(origState);
+      final origState = CalculatorState.empty();
+      final newState = Enter(1).execute(origState);
 
       expect(newState, isNot(origState));
       expect(newState.stack, equals([1]));
@@ -17,8 +17,8 @@ void main() {
 
   group("Clear", () {
     test("an empty state", () {
-      final origState = InternalState(stack: [1], history: []);
-      final newState = Clear().apply(origState);
+      final origState = CalculatorState(stack: [1], history: []);
+      final newState = Clear().execute(origState);
 
       expect(newState, isNot(origState));
       expect(newState.stack, isEmpty);
@@ -28,13 +28,13 @@ void main() {
 
   group("Undo", () {
     test("previous state restored from history", () {
-      final origState = InternalState(stack: [
+      final origState = CalculatorState(stack: [
         1,
         2
       ], history: [
         [1]
       ]);
-      final newState = Undo().apply(origState);
+      final newState = Undo().execute(origState);
 
       expect(newState, isNot(origState));
       expect(newState.stack, equals([1]));
@@ -44,8 +44,8 @@ void main() {
 
   group("Add", () {
     test('adds the last two values', () {
-      final origState = InternalState(stack: [1, 2], history: []);
-      final newState = Add().apply(origState);
+      final origState = CalculatorState(stack: [1, 2], history: []);
+      final newState = Add().execute(origState);
 
       expect(newState, isNot(origState));
       expect(newState.stack, equals([3]));
@@ -53,16 +53,16 @@ void main() {
     });
 
     test("does nothing when stack length is less than 2", () {
-      final origState = InternalState(stack: [1], history: []);
-      final newState = Add().apply(origState);
+      final origState = CalculatorState(stack: [1], history: []);
+      final newState = Add().execute(origState);
       expect(newState, equals(origState));
     });
   });
 
   group("Subtract", () {
     test('Subtract the last two values', () {
-      final origState = InternalState(stack: [1, 2], history: []);
-      final newState = Subtract().apply(origState);
+      final origState = CalculatorState(stack: [1, 2], history: []);
+      final newState = Subtract().execute(origState);
 
       expect(newState.stack, equals([-1]));
     });
@@ -70,8 +70,8 @@ void main() {
 
   group("Multiply", () {
     test('Multiply the last two values', () {
-      final origState = InternalState(stack: [2, 3], history: []);
-      final newState = Multiply().apply(origState);
+      final origState = CalculatorState(stack: [2, 3], history: []);
+      final newState = Multiply().execute(origState);
 
       expect(newState.stack, equals([6]));
     });
@@ -79,8 +79,8 @@ void main() {
 
   group("Divide", () {
     test('Divide the last two values', () {
-      final origState = InternalState(stack: [21, 7], history: []);
-      final newState = Divide().apply(origState);
+      final origState = CalculatorState(stack: [21, 7], history: []);
+      final newState = Divide().execute(origState);
 
       expect(newState.stack, equals([3]));
     });
