@@ -1,5 +1,5 @@
 import 'package:calculator_cli/commands.dart';
-import 'package:calculator_cli/internal_state.dart';
+import 'package:calculator_cli/calculator_state.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,8 +1,8 @@
-import 'internal_state.dart';
+import 'calculator_state.dart';
 
 /// Abstract base class for all calculator operations
 abstract class Command {
-  InternalState apply(InternalState state);
+  CalculatorState execute(CalculatorState state);
 }
 
 class Enter implements Command {
@@ -11,8 +11,8 @@ class Enter implements Command {
   final num number;
 
   @override
-  InternalState apply(InternalState state) {
-    return InternalState(
+  CalculatorState execute(CalculatorState state) {
+    return CalculatorState(
       stack: [...state.stack, number],
       history: [...state.history, state.stack],
     );
@@ -21,16 +21,16 @@ class Enter implements Command {
 
 class Clear implements Command {
   @override
-  InternalState apply(InternalState state) {
-    return InternalState.empty();
+  CalculatorState execute(CalculatorState state) {
+    return CalculatorState.empty();
   }
 }
 
 class Undo extends Command {
   @override
-  InternalState apply(InternalState state) {
+  CalculatorState execute(CalculatorState state) {
     if (state.history.isEmpty) return state;
-    return InternalState(
+    return CalculatorState(
       stack: state.history.last,
       history: [...state.history.take(state.history.length - 1)],
     );
@@ -42,11 +42,11 @@ abstract class Operator implements Command {
   num operate(num operand1, num operand2);
 
   @override
-  InternalState apply(InternalState state) {
+  CalculatorState execute(CalculatorState state) {
     if (state.stack.length < 2) return state;
     final operand2 = state.stack.last;
     final operand1 = state.stack.elementAt(state.stack.length - 2);
-    return InternalState(
+    return CalculatorState(
       stack: [
         ...state.stack.take(state.stack.length - 2),
         operate(operand1, operand2)

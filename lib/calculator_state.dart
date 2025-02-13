@@ -1,5 +1,5 @@
-class InternalState {
-  InternalState({
+class CalculatorState {
+  CalculatorState({
     required this.stack,
     required this.history,
   });
@@ -7,7 +7,7 @@ class InternalState {
   final List<num> stack;
   final List<List<num>> history;
 
-  static InternalState empty() => InternalState(stack: [], history: []);
+  static CalculatorState empty() => CalculatorState(stack: [], history: []);
 
   @override
   String toString() {
